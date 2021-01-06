@@ -16,9 +16,17 @@ module.exports = {
         }
     },
     schemas: {
-        authSchema: Joi.object().keys({
+        signupSchema: Joi.object().keys({
             email: Joi.string().email().required(),
-            password: Joi.string().min(8).max(128).required()
+            name: Joi.string().min(5).max(30).required(),
+            password: Joi.string().min(8).max(128).required(),
+            confirm_password: Joi.any().equal(Joi.ref('password'))
+                .required()
+                .messages({ 'any.only': '{{#label}} does not match' })
+        }),
+        signinSchema: Joi.object().keys({
+            email: Joi.string().email().required(),
+            password: Joi.string().min(8).max(128).required(),
         })
     }
 }

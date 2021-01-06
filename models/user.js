@@ -9,12 +9,9 @@ const userSchema = new Schema({
         unique: [true, 'email has already been used'],
         lowercase: true
     },
-    local: {
-        type: Boolean,
-        default: false
-    },
     password: {
         type: String,
+        default: null,
     },
     googleID: {
         type: String,
@@ -62,22 +59,19 @@ const userSchema = new Schema({
     timestamps: true
 })
 
-userSchema.pre('save', async function(next) {
-    try {
-        if(!this.local) {
-            next();
-        }
+
+userSchema.methods.hashPassword = async function() {
+    try{
         // Generate salt
         const salt = await bcrypt.genSalt(10);
 
         // Generate a password hash ( salt + hash) and Re-assign hashed version over original plain-text password
         this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (err) {
-        next(err);
-    }
-});
 
+    } catch(err) {
+        throw new Error(err);
+    }
+}
 
 userSchema.methods.isValidPassword = async function(givenPassword) {
     try {
