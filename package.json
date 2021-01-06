@@ -1,0 +1,30 @@
+{
+  "name": "mondelez",
+  "version": "1.0.0",
+  "description": "Graduation project from the Faculty of Science, Computer Science Department",
+  "main": "app.js",
+  "scripts": {
+    "start-dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Omeganes/Mondelez.git"
+  },
+  "keywords": [
+    "Fitness",
+    "Health",
+    "Lifestyle"
+  ],
+  "author": "Raymond",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Omeganes/Mondelez/issues"
+  },
+  "homepage": "https://github.com/Omeganes/Mondelez#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
