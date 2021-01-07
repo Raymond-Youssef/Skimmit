@@ -7,7 +7,7 @@ module.exports = [
         next(err);
     },
     (err, req, res, next) => {
-        res.status(err.status).json({
+        res.status(err.status?err.status:500).json({
             success: false,
             message: err.message,
         });

@@ -16,7 +16,7 @@ module.exports = {
     signUp: async (req, res, next) => {
         const {email, password, name} = req.value.body;
         // Check if the user exists in the database
-        const foundUser = await User.findOne({"email": email});
+        const foundUser = await User.findOne({email: email});
 
         // Handle existing user
         if (foundUser) {
@@ -38,7 +38,7 @@ module.exports = {
         const token = signToken(newUser);
 
         // Respond with token
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
             created: {
                 email: email,
