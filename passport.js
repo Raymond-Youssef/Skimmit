@@ -26,20 +26,18 @@ passport.use('JWT-Strategy', new JWTStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
 }, async (payload, done) => {
-    try {
-        // Find user specified in the token
-        const user = await User.findById(payload.sub);
-
-        // If the user doesn't exist, handle it
-        if (!user) {
-            return done(null, false);
-        }
-
-        // otherwise, return the user
-        done(null, user);
-    } catch (err) {
-        done(err, false);
-    }
+    await User.findById(payload.sub)
+        .then( (user) => {
+            // In case user doesn't exist
+            if(!user) {
+                return done(null, false);
+            }
+            // In case user does exist
+            done(null, user);
+        })
+        .catch( (err) => {
+            done(err, false);
+        })
 }))
 
 
@@ -47,37 +45,34 @@ passport.use('JWT-Strategy', new JWTStrategy({
 passport.use('Local-Strategy', new LocalStrategy({
     usernameField: 'email',
 }, async (email, password, done) => {
-    try {
-        // Find the user given the email
-        const user = await User.findOne({"email": email});
-
-        // If not, handle it
-        if (!user) {
-            const err = new Error('The user does not exist');
-            err.status = 401;
-            return done(err);
-        }
-        // Check if the password isn't set yet
-        if(!user.password) {
-            const err = new Error('The password is not set yet');
-            err.status = 401;
-            return done(err);
-        }
-
-        // Check if the password is correct
-        const isMatch = await user.isValidPassword(password);
-
-        // If not, handle it
-        if (!isMatch) {
-            const err = new Error('The password is not correct');
-            err.status = 401;
-            return done(err);
-        }
-        // Otherwise, return the user
-        done(null, user);
-    } catch (err) {
-        done(err, false);
-    }
+    await User.findOne({email: email})
+        .then(async (user) => {
+            // Case the user does not exist
+            if(!user) {
+                const err = new Error('The user does not exist');
+                err.status = 401;
+                throw err;
+            }
+            // Case user has not set his password yet
+            if(!user.password) {
+                const err = new Error('The password is not set yet');
+                err.status = 401;
+                throw err;
+            }
+            // Case password does not match
+            const isMatch = await user.isValidPassword(password);
+            if(!isMatch) {
+                const err = new Error('The password is not correct');
+                err.status = 401;
+                throw err;
+            }
+            // On successful matching
+            done(null, user);
+        })
+        .catch( (err) => {
+            // Handling errors
+            done(err, false);
+        })
 }))
 
 
@@ -86,32 +81,33 @@ passport.use('Google-Strategy', new GoogleStrategy({
     clientID: googleConfig.CLIENT_ID,
     clientSecret: googleConfig.CLIENT_SECRET,
 }, async (accessToken, refreshToken, profile, done) => {
-    try {
-        // Check whether this user exists in the database by GoogleID
-        const existingUserByGoogle = await User.findOne({googleID: profile.id});
-        if (existingUserByGoogle) {
-            return done(null, existingUserByGoogle);
-        }
+    await User.findOne({ googleID: profile.id})
+        .then( async (existingUser) => {
+            // In case user exists and signed up using google
+            if(existingUser) {
+                return done(null, existingUser);
+            }
 
-        // Check whether this user exists in the database by Email
-        const existingUserByEmail = await User.findOne({email: profile.emails[0].value});
-        if (existingUserByEmail) {
-            existingUserByEmail.googleID = profile.id;
-            existingUserByEmail.save();
-            return done(null, existingUserByEmail);
-        }
+            // In case email exists but by email
+            const existingUserByEmail = await User.findOne({email: profile.emails[0].value});
+            if (existingUserByEmail) {
+                existingUserByEmail.googleID = profile.id;
+                existingUserByEmail.save();
+                return done(null, existingUserByEmail);
+            }
 
-        // If it's not an existing user, create one.
-        const newUser = new User({
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            googleID: profile.id,
-        });
-        await newUser.save();
-        done(null, newUser);
-    } catch(err) {
-        done(err, false, err.message);
-    }
+            // In case is a new user
+            const newUser = new User({
+                email: profile.emails[0].value,
+                name: profile.displayName,
+                googleID: profile.id,
+            });
+            await newUser.save();
+            done(null, newUser);
+        })
+        .catch( (err) => {
+            done(err, false, err.message);
+        })
 }))
 
 
@@ -120,32 +116,33 @@ passport.use('Facebook-Strategy', new FacebookStrategy({
     clientID: facebookConfig.CLIENT_ID,
     clientSecret: facebookConfig.CLIENT_SECRET,
 }, async (accessToken, refreshToken, profile, done) => {
-    try {
-        // Check whether this user exists in the database
-        const existingUserByFacebook = await User.findOne({"facebookID": profile.id});
-        if (existingUserByFacebook) {
-            console.log('User exists in database');
-            return done(null, existingUserByFacebook);
-        }
+    await User.findOne({"facebookID": profile.id})
+        .then( async (existingUser) => {
+            // Check whether this user exists in the database
+            if (existingUser) {
+                console.log('User exists in database');
+                return done(null, existingUser);
+            }
 
-        // Check whether this user exists in the database by Email
-        const existingUserByEmail = await User.findOne({email: profile.emails[0].value});
-        if (existingUserByEmail) {
-            existingUserByEmail.facebookID = profile.id;
-            existingUserByEmail.save();
-            return done(null, existingUserByEmail);
-        }
+            // Check whether this user exists in the database by Email
+            const existingUserByEmail = await User.findOne({email: profile.emails[0].value});
+            if (existingUserByEmail) {
+                existingUserByEmail.facebookID = profile.id;
+                existingUserByEmail.save();
+                return done(null, existingUserByEmail);
+            }
 
-        // If it's not an existing user, create one.
-        const newUser = new User({
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            facebookID: profile.id,
-        });
-        await newUser.save();
-        done(null, newUser);
+            // Creat new user
+            const newUser = new User({
+                email: profile.emails[0].value,
+                name: profile.displayName,
+                facebookID: profile.id,
+            });
+            await newUser.save();
+            done(null, newUser);
 
-    } catch (err) {
-        done(err, false, err.message);
-    }
+        })
+        .catch( (err) => {
+            done(err, false, err.message);
+        })
 }))
