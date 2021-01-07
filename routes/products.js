@@ -5,7 +5,7 @@ const auth = require('../authenticate.js');
 
 
 productsRouter.post('/',
-    // auth.userAuth,
+    auth.adminAuth,
     (req, res, next) => {
     // console.log(req.user);
     console.log('here');
