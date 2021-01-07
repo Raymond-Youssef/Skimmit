@@ -15,20 +15,16 @@ const productSchema = new Schema({
     },
     imageURL: {
         type: String,
-        required: [true, 'image URL is missing']
     },
     meta: {
         calories: {
             type: Number,
-            required: [true, 'number of calories is required'],
         },
         sodium: {
             type: Number,
-            required: [true, 'sodium amount is required']
         },
         sugar: {
             type: Number,
-            required: [true, 'sugar amount is required']
         }
     }
 })

@@ -9,7 +9,7 @@ module.exports = {
         passport.authenticate('Google-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
                 const error = new Error('invalid google access token');
-                error.code = 401;
+                error.status = 401;
                 return next(error);
             }
             req.user = user;
@@ -21,7 +21,7 @@ module.exports = {
         passport.authenticate('Facebook-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
                 const error = new Error('invalid facebook access token');
-                error.code = 401;
+                error.status = 401;
                 return next(error);
             }
             req.user = user;
@@ -33,7 +33,7 @@ module.exports = {
         passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
                 const error = new Error('unauthorized');
-                error.code = 401;
+                error.status = 401;
                 return next(error);
             }
             req.user = user;
@@ -45,10 +45,14 @@ module.exports = {
         passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
                 const error = new Error('unauthorized');
-                error.code = 401;
+                error.status = 401;
                 return next(error);
             }
-            console.log(user);
+            if(!user.isAdmin) {
+                const error = new Error('only admins are authorized');
+                error.status = 401;
+                return next(error);
+            }
             req.user = user;
             return next();
         })(req, res, next);

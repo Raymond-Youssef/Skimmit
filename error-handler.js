@@ -3,11 +3,11 @@ const errorsHandler = require('express').Router();
 module.exports = [
     (req, res, next) => {
         const err = new Error('not found');
-        err.code = 404;
+        err.status = 404;
         next(err);
     },
     (err, req, res, next) => {
-        res.status(err.code).json({
+        res.status(err.status).json({
             success: false,
             message: err.message,
         });

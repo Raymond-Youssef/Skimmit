@@ -54,13 +54,13 @@ passport.use('Local-Strategy', new LocalStrategy({
         // If not, handle it
         if (!user) {
             const err = new Error('The user does not exist');
-            err.code = 401;
+            err.status = 401;
             return done(err);
         }
         // Check if the password isn't set yet
         if(!user.password) {
             const err = new Error('The password is not set yet');
-            err.code = 401;
+            err.status = 401;
             return done(err);
         }
 
@@ -70,7 +70,7 @@ passport.use('Local-Strategy', new LocalStrategy({
         // If not, handle it
         if (!isMatch) {
             const err = new Error('The password is not correct');
-            err.code = 401;
+            err.status = 401;
             return done(err);
         }
         // Otherwise, return the user

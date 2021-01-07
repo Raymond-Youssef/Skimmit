@@ -21,7 +21,7 @@ module.exports = {
         // Handle existing user
         if (foundUser) {
             const err = new Error('user already exists');
-            err.code = 403;
+            err.status = 403;
             next(err);
         }
 
@@ -87,7 +87,7 @@ module.exports = {
     setPassword: async (req, res, next) => {
         if(req.user.password) {
             const err = new Error('password is already set');
-            err.code = 401;
+            err.status = 401;
             return next(err);
         }
 
