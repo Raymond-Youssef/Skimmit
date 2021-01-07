@@ -4,6 +4,7 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const {ExtractJwt} = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-token').Strategy;
+const FacebookStrategy = require('passport-facebook-token');
 
 const User = require('./models/user');
 
@@ -49,19 +50,15 @@ passport.use('Local-Strategy', new LocalStrategy({
 
         // If not, handle it
         if (!user) {
-            const user_err = {
-                error: "The user does not exist",
-                error_status: 401
-            }
-            return done(null, user_err);
+            const err = new Error('The user does not exist');
+            err.code = 401;
+            return done(err);
         }
         // Check if the password isn't set yet
         if(!user.password) {
-            const user_err = {
-                error: "The password is not set yet",
-                error_status: 401
-            }
-            return done(null, user_err);
+            const err = new Error('The password is not set yet');
+            err.code = 401;
+            return done(err);
         }
 
         // Check if the password is correct
@@ -69,11 +66,9 @@ passport.use('Local-Strategy', new LocalStrategy({
 
         // If not, handle it
         if (!isMatch) {
-            const user_err = {
-                error: "The password is not correct",
-                error_status: 401
-            }
-            return done(null, user_err);
+            const err = new Error('The password is not correct');
+            err.code = 401;
+            return done(err);
         }
         // Otherwise, return the user
         done(null, user);
@@ -112,6 +107,41 @@ passport.use('Google-Strategy', new GoogleStrategy({
         await newUser.save();
         done(null, newUser);
     } catch(err) {
+        done(err, false, err.message);
+    }
+}))
+
+// Facebook Strategy
+passport.use('Facebook-Strategy', new FacebookStrategy({
+    clientID: facebookConfig.CLIENT_ID,
+    clientSecret: facebookConfig.CLIENT_SECRET,
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        // Check whether this user exists in the database
+        const existingUserByFacebook = await User.findOne({"facebookID": profile.id});
+        if (existingUserByFacebook) {
+            console.log('User exists in database');
+            return done(null, existingUserByFacebook);
+        }
+
+        // Check whether this user exists in the database by Email
+        const existingUserByEmail = await User.findOne({email: profile.emails[0].value});
+        if (existingUserByEmail) {
+            existingUserByEmail.facebookID = profile.id;
+            existingUserByEmail.save();
+            return done(null, existingUserByEmail);
+        }
+
+        // If it's not an existing user, create one.
+        const newUser = new User({
+            email: profile.emails[0].value,
+            name: profile.displayName,
+            facebookID: profile.id,
+        });
+        await newUser.save();
+        done(null, newUser);
+
+    } catch (err) {
         done(err, false, err.message);
     }
 }))

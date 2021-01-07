@@ -13,16 +13,16 @@ const signToken = user => {
 }
 
 module.exports = {
-    signUp: async (req, res) => {
+    signUp: async (req, res, next) => {
         const {email, password, name} = req.value.body;
         // Check if the user exists in the database
         const foundUser = await User.findOne({"email": email});
+
         // Handle existing user
         if (foundUser) {
-            return res.status(403).json({
-                success: false,
-                message: "user already exists"
-            })
+            const err = new Error('user already exists');
+            err.code = 403;
+            next(err);
         }
 
         // Create new user
@@ -38,7 +38,7 @@ module.exports = {
         const token = signToken(newUser);
 
         // Respond with token
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             created: {
                 email: email,
@@ -50,12 +50,6 @@ module.exports = {
 
     signIn: async (req, res) => {
         const token = signToken(req.user);
-        if (req.user.error) {
-            return res.status(req.user.error_status).json({
-                success: false,
-                message: req.user.error,
-            });
-        }
         return res.status(200).json({
             success: true,
             user: {
@@ -78,11 +72,15 @@ module.exports = {
         })
     },
 
-    // facebookOAuth: async (req, res) => {
-    //     const token = signToken(req.user);
-    //     return res.status(200).json({
-    //         success: true,
-    //         token: token,
-    //     })
-    // },
+    facebookOAuth: async (req, res, next) => {
+        const token = signToken(req.user);
+        return res.status(200).json({
+            success: true,
+            user: {
+                email: req.user.email,
+                name: req.user.name,
+            },
+            token: token,
+        })
+    },
 }

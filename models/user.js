@@ -73,6 +73,7 @@ userSchema.methods.hashPassword = async function() {
     }
 }
 
+
 userSchema.methods.isValidPassword = async function(givenPassword) {
     try {
         return await bcrypt.compare(givenPassword, this.password);

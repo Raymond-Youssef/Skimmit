@@ -27,6 +27,14 @@ app.use(bodyParser.json());
 // Routes
 app.use('/users', require('./routes/users'));
 
+app.use(function(req, res, next) {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use(require('./error-handler'));
+
 // Start server
 const PORT = process.env.EXPRESS_PORT || 3000;
 app.listen(PORT, () => {

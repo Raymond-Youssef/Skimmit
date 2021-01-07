@@ -1,8 +1,8 @@
 const usersRouter = require('express-promise-router')();
 const UsersController = require('../controllers/users');
 const {validateBody, schemas} = require('../helpers/validators');
-const passport = require('passport');
-require('../passport');
+
+const auth = require('../authenticate.js');
 
 
 usersRouter.post('/signup',
@@ -13,17 +13,20 @@ usersRouter.post('/signup',
 
 usersRouter.post('/signin',
     validateBody(schemas.signinSchema),
-    passport.authenticate('Local-Strategy', {session: false}), // This will attach req.user
+    auth.localStrategy, // This will attach req.user
     UsersController.signIn
 );
 
 
 usersRouter.post('/oauth/google',
-    passport.authenticate('Google-Strategy', {session: false}),
+    auth.googleStrategy,
     UsersController.googleOAuth
 );
 
 
-// usersRouter.post('/oauth/facebook');
+usersRouter.post('/oauth/facebook',
+    auth.facebookStrategy,
+    UsersController.facebookOAuth
+);
 
 module.exports = usersRouter;
