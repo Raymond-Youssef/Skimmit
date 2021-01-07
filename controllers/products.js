@@ -63,6 +63,9 @@ module.exports = {
                     data: product,
                 })
             })
+            .catch((err) => {
+                next(err);
+            })
     },
 
 
