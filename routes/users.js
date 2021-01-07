@@ -1,4 +1,4 @@
-const usersRouter = require('express-promise-router')();
+const usersRouter = require('express').Router();
 const UsersController = require('../controllers/users');
 const {validateBody, schemas} = require('../helpers/validators');
 
@@ -30,7 +30,7 @@ usersRouter.post('/oauth/facebook',
 );
 
 
-usersRouter.get('/setPassword',
+usersRouter.post('/setPassword',
     auth.userAuth,
     validateBody(schemas.passwordSettingSchema),
     UsersController.setPassword

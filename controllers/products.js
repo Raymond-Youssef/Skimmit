@@ -42,8 +42,8 @@ module.exports = {
             })
     },
 
-    readProductByID: async (req, res, next) => {
-        res.status(200).json({
+    readProductByID: async (req, res) => {
+        return res.status(200).json({
             success: true,
             product: req.product
         })

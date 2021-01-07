@@ -15,37 +15,43 @@ const signToken = user => {
 module.exports = {
     signUp: async (req, res, next) => {
         const {email, password, name} = req.value.body;
-        // Check if the user exists in the database
-        const foundUser = await User.findOne({email: email});
-
-        // Handle existing user
-        if (foundUser) {
-            const err = new Error('user already exists');
-            err.status = 403;
-            next(err);
-        }
-
-        // Create new user
-        const newUser = new User({
-            email: email,
-            password: password,
-            name: name,
-        });
-        await newUser.hashPassword();
-        await newUser.save();
-
-        // Sign a new token
-        const token = signToken(newUser);
-
-        // Respond with token
-        return res.status(201).json({
-            success: true,
-            created: {
-                email: email,
-                name: name,
-            },
-            token: token,
-        })
+        await User.findOne({email: email})
+            .then((foundUser) => {
+                // If user exists in database
+                if(foundUser) {
+                    const err = new Error('user already exists');
+                    err.status = 403;
+                    throw err;
+                }
+            })
+            .then( async () => {
+                // Create new user
+                const newUser = new User( {
+                    email: email,
+                    password: password,
+                    name: name,
+                })
+                // Hash password before saving
+                await newUser.hashPassword();
+                await newUser.save();
+                return newUser;
+            })
+            .then( (newUser) => {
+                // Sign a token
+                const token = signToken(newUser);
+                // Send response
+                return res.status(201).json({
+                    success: true,
+                    created: {
+                        email: newUser.email,
+                        name: newUser.name,
+                    },
+                    token: token,
+                })
+            })
+            .catch( (err) => {
+                next(err);
+            } )
     },
 
     signIn: async (req, res) => {
@@ -60,28 +66,38 @@ module.exports = {
         })
     },
 
-    googleOAuth: async (req, res) => {
-        const token = signToken(req.user);
-        return res.status(200).json({
-            success: true,
-            user: {
-                email: req.user.email,
-                name: req.user.name,
-            },
-            token: token,
-        })
+    googleOAuth: async (req, res, next) => {
+        signToken(req.user)
+            .then( (token) => {
+                return res.status(200).json({
+                    success: true,
+                    user: {
+                        email: req.user.email,
+                        name: req.user.name,
+                    },
+                    token: token,
+                })
+            })
+            .catch( (err) => {
+                next(err);
+            })
     },
 
-    facebookOAuth: async (req, res) => {
-        const token = signToken(req.user);
-        return res.status(200).json({
-            success: true,
-            user: {
-                email: req.user.email,
-                name: req.user.name,
-            },
-            token: token,
-        })
+    facebookOAuth: async (req, res, next) => {
+        signToken(req.user)
+            .then( (token) => {
+                return res.status(200).json({
+                    success: true,
+                    user: {
+                        email: req.user.email,
+                        name: req.user.name,
+                    },
+                    token: token,
+                })
+            })
+            .catch( (err) => {
+                next(err);
+            })
     },
 
     setPassword: async (req, res, next) => {
