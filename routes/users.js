@@ -29,4 +29,11 @@ usersRouter.post('/oauth/facebook',
     UsersController.facebookOAuth
 );
 
+
+usersRouter.get('/setPassword',
+    auth.JWTStrategy,
+    validateBody(schemas.passwordSettingSchema),
+    UsersController.setPassword
+);
+
 module.exports = usersRouter;

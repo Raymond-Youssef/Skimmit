@@ -72,7 +72,7 @@ module.exports = {
         })
     },
 
-    facebookOAuth: async (req, res, next) => {
+    facebookOAuth: async (req, res) => {
         const token = signToken(req.user);
         return res.status(200).json({
             success: true,
@@ -83,4 +83,20 @@ module.exports = {
             token: token,
         })
     },
+
+    setPassword: async (req, res, next) => {
+        if(req.user.password) {
+            const err = new Error('password is already set');
+            err.code = 401;
+            return next(err);
+        }
+        req.user.password = req.body.password;
+        await req.user.hashPassword();
+        req.user.save();
+
+        return res.status(200).json({
+            success: true,
+            secret: "resource"
+        })
+    }
 }

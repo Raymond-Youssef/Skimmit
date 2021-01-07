@@ -24,5 +24,16 @@ module.exports = {
             req.user = user;
             return next();
         })(req, res, next);
+    },
+    JWTStrategy: (req, res, next) => {
+        passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
+            if (err || !user) {
+                const error = new Error('Unauthorized');
+                error.code = 401;
+                return next(error);
+            }
+            req.user = user;
+            return next();
+        })(req, res, next);
     }
 }
