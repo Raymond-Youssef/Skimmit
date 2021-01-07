@@ -8,6 +8,7 @@ const FacebookStrategy = require('passport-facebook-token');
 
 const User = require('./models/user');
 
+
 // Environment Variables
 const JWT_SECRET = process.env.JWT_SECRET;
 const googleConfig = {
@@ -18,6 +19,7 @@ const facebookConfig = {
     CLIENT_ID: process.env["facebook.CLIENT_ID"],
     CLIENT_SECRET: process.env["facebook.CLIENT_SECRET"],
 }
+
 
 // JWT Strategy
 passport.use('JWT-Strategy', new JWTStrategy({
@@ -39,6 +41,7 @@ passport.use('JWT-Strategy', new JWTStrategy({
         done(err, false);
     }
 }))
+
 
 // Local Strategy
 passport.use('Local-Strategy', new LocalStrategy({
@@ -110,6 +113,7 @@ passport.use('Google-Strategy', new GoogleStrategy({
         done(err, false, err.message);
     }
 }))
+
 
 // Facebook Strategy
 passport.use('Facebook-Strategy', new FacebookStrategy({

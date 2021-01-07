@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
+
+// Create a schema
 const userSchema = new Schema({
     email: {
         type: String,
