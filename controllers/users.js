@@ -90,13 +90,13 @@ module.exports = {
             err.code = 401;
             return next(err);
         }
+
         req.user.password = req.body.password;
         await req.user.hashPassword();
         req.user.save();
-
         return res.status(200).json({
             success: true,
-            secret: "resource"
+            secret: "password was set"
         })
     }
 }
