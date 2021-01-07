@@ -26,12 +26,8 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/users', require('./routes/users'));
+app.use('/products', require('./routes/products'));
 
-app.use(function(req, res, next) {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
 
 app.use(require('./error-handler'));
 

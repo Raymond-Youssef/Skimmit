@@ -31,7 +31,7 @@ usersRouter.post('/oauth/facebook',
 
 
 usersRouter.get('/setPassword',
-    auth.JWTStrategy,
+    auth.userAuth,
     validateBody(schemas.passwordSettingSchema),
     UsersController.setPassword
 );

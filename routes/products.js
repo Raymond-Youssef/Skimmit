@@ -4,4 +4,11 @@ const ProductsController = require('../controllers/users');
 const auth = require('../authenticate.js');
 
 
-module.exports = usersRouter;
+productsRouter.post('/',
+    // auth.userAuth,
+    (req, res, next) => {
+    // console.log(req.user);
+    console.log('here');
+})
+
+module.exports = productsRouter;

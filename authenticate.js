@@ -8,7 +8,7 @@ module.exports = {
     googleStrategy: (req, res, next) => {
         passport.authenticate('Google-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
-                const error = new Error('Invalid Google access token');
+                const error = new Error('invalid google access token');
                 error.code = 401;
                 return next(error);
             }
@@ -20,7 +20,7 @@ module.exports = {
     facebookStrategy: (req, res, next) => {
         passport.authenticate('Facebook-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
-                const error = new Error('Invalid Facebook access token');
+                const error = new Error('invalid facebook access token');
                 error.code = 401;
                 return next(error);
             }
@@ -29,13 +29,26 @@ module.exports = {
         })(req, res, next);
     },
 
-    JWTStrategy: (req, res, next) => {
+    userAuth: (req, res, next) => {
         passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
             if (err || !user) {
-                const error = new Error('Unauthorized');
+                const error = new Error('unauthorized');
                 error.code = 401;
                 return next(error);
             }
+            req.user = user;
+            return next();
+        })(req, res, next);
+    },
+
+    adminAuth: (req, res, next) => {
+        passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
+            if (err || !user) {
+                const error = new Error('unauthorized');
+                error.code = 401;
+                return next(error);
+            }
+            console.log(user);
             req.user = user;
             return next();
         })(req, res, next);
