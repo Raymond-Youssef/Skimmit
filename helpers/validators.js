@@ -35,9 +35,18 @@ module.exports = {
                 .required()
                 .messages({ 'any.only': '{{#label}} does not match' })
         }),
-        productSchema: Joi.object().keys({
+        createProductSchema: Joi.object().keys({
             name: Joi.string().required(),
             barcode: Joi.number().required(),
+            meta: Joi.object().keys({
+                calories: Joi.number(),
+                sodium: Joi.number(),
+                sugar: Joi.number(),
+            })
+        }),
+        patchProductSchema: Joi.object().keys({
+            name: Joi.string(),
+            barcode: Joi.number(),
             meta: Joi.object().keys({
                 calories: Joi.number(),
                 sodium: Joi.number(),

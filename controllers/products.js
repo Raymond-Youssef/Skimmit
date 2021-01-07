@@ -1,6 +1,36 @@
 const Product = require('../models/product');
 
+
 module.exports = {
+    productID: async (req, res, next, id) => {
+        await Product.findById(id)
+            .then( (product) => {
+                // Case product does not exist
+                if(!product) {
+                    const err = new Error('product not found');
+                    err.status = 404;
+                    return next(err);
+                }
+                // Attach product to request
+                req.product = product;
+                req.productID = id;
+                next();
+            })
+            .catch( () => {
+                // case product id is invalid
+                const err = new Error('invalid id');
+                err.status = 400;
+                next(err);
+            })
+    },
+
+    readOne: async (req, res) => {
+        return res.status(200).json({
+            success: true,
+            data: req.product
+        })
+    },
+
     create: async (req, res, next) => {
         const {barcode} = req.value.body;
         await Product.findOne({ barcode: barcode})
@@ -16,7 +46,7 @@ module.exports = {
                 await newProduct.save();
                 return res.status(201).json({
                     success: true,
-                    created: newProduct,
+                    data: newProduct,
                 })
             })
             .catch( (err) => {
@@ -24,28 +54,16 @@ module.exports = {
             })
     },
 
-    productID: async (req, res, next, id) => {
-        await Product.findById(id)
+    update: async (req, res, next) => {
+        console.log(req.value.body);
+        await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
             .then( (product) => {
-                if(!product) {
-                    const err = new Error('product not found');
-                    err.status = 404;
-                    return next(err);
-                }
-                req.product = product;
-                next();
-            })
-            .catch( () => {
-                const err = new Error('invalid id');
-                err.status = 400;
-                next(err);
+                return res.status(200).json({
+                    success: true,
+                    data: product,
+                })
             })
     },
 
-    readProductByID: async (req, res) => {
-        return res.status(200).json({
-            success: true,
-            product: req.product
-        })
-    }
+
 }
