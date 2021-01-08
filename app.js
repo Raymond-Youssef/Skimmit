@@ -26,11 +26,11 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // Routes
-app.use('/users', require('./routes/users'));
-app.use('/products', require('./routes/products'));
+app.use('/users', require('./src/routes/users'));
+app.use('/products', require('./src/routes/products'));
 
 
-app.use(require('./error-handler'));
+app.use(require('./src/error-handler'));
 
 // Start server
 const PORT = process.env.EXPRESS_PORT || 3000;
