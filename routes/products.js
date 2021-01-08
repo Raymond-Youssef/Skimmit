@@ -6,13 +6,13 @@ const auth = require('../authenticate.js');
 
 
 // Handle parameters
-productsRouter.param('id',
-    ProductsController.productID
+productsRouter.param('barcode',
+    ProductsController.barcode
 );
 
 
 // Read product by id
-productsRouter.get('/:id',
+productsRouter.get('/:barcode',
     ProductsController.readOne
 );
 
@@ -24,10 +24,21 @@ productsRouter.post('/',
     ProductsController.create,
 );
 
-productsRouter.patch('/:id',
+
+// Update an existing product
+productsRouter.patch('/:barcode',
     auth.adminAuth,
     validateBody(schemas.patchProductSchema),
     ProductsController.update,
-)
+);
+
+
+// Delete a product
+productsRouter.delete('/:barcode',
+    auth.adminAuth,
+    ProductsController.delete,
+);
+
+
 
 module.exports = productsRouter;

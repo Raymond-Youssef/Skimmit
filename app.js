@@ -14,6 +14,7 @@ mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false
 }).then( (mongoose) => {
     console.log(`Connected to MongoDB on Port: ${mongoose.connections[0].port}`);
 })

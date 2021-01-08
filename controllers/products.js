@@ -2,8 +2,8 @@ const Product = require('../models/product');
 
 
 module.exports = {
-    productID: async (req, res, next, id) => {
-        await Product.findById(id)
+    barcode: async (req, res, next, barcode) => {
+        await Product.findOne({barcode: barcode})
             .then( (product) => {
                 // Case product does not exist
                 if(!product) {
@@ -13,12 +13,11 @@ module.exports = {
                 }
                 // Attach product to request
                 req.product = product;
-                req.productID = id;
+                req.productID = product.id;
                 next();
             })
             .catch( () => {
-                // case product id is invalid
-                const err = new Error('invalid id');
+                const err = new Error('barcode must be numeric');
                 err.status = 400;
                 next(err);
             })
@@ -55,7 +54,6 @@ module.exports = {
     },
 
     update: async (req, res, next) => {
-        console.log(req.value.body);
         await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
             .then( (product) => {
                 return res.status(200).json({
@@ -68,5 +66,16 @@ module.exports = {
             })
     },
 
-
+    delete: async (req, res, next) => {
+        req.product.remove()
+            .then( (product) => {
+                res.status(200).json({
+                    success: true,
+                    deleted: product.id,
+                })
+            })
+            .catch( (err) => {
+                next(err);
+            })
+    }
 }
