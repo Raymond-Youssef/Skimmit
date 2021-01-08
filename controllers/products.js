@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-
+const PRODUCTS_PER_PAGE = 5;
 
 module.exports = {
     barcode: async (req, res, next, barcode) => {
@@ -21,6 +21,29 @@ module.exports = {
                 err.status = 400;
                 next(err);
             })
+    },
+
+    readAll: async (req, res, next) => {
+        const page = isNaN(req.query.page)? 1:Number(req.query.page);
+        const start = (page - 1) * PRODUCTS_PER_PAGE;
+        const end = start + PRODUCTS_PER_PAGE;
+        await Product.find({})
+            .then(products => {
+                const paginatedProducts = products.slice(start, end);
+                if(paginatedProducts.length === 0) {
+                    const err = new Error('page is empty');
+                    err.status = 404;
+                    throw err;
+                }
+                return res.status(200).json({
+                    success: true,
+                    data: paginatedProducts,
+                    page: page,
+                })
+            })
+            .catch( (err) => {
+                next(err);
+            } )
     },
 
     readOne: async (req, res) => {

@@ -11,6 +11,11 @@ productsRouter.param('barcode',
 );
 
 
+productsRouter.get('/',
+    ProductsController.readAll,
+);
+
+
 // Read product by id
 productsRouter.get('/:barcode',
     ProductsController.readOne
