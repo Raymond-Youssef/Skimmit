@@ -1,4 +1,3 @@
-const errorsHandler = require('express').Router();
 
 module.exports = [
     (req, res, next) => {
