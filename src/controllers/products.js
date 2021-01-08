@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+const {Product} = require('../models/product');
 const PRODUCTS_PER_PAGE = 5;
 
 module.exports = {

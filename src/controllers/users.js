@@ -3,6 +3,7 @@ const User = require('../models/user');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
+// Helper function to sign tokens
 const signToken = user => {
     return JWT.sign({
         iss: 'mondelez-api',
@@ -12,6 +13,8 @@ const signToken = user => {
     }, JWT_SECRET)
 }
 
+
+// Controllers
 module.exports = {
     signUp: async (req, res, next) => {
         const {email, password, name} = req.value.body;
@@ -67,37 +70,35 @@ module.exports = {
     },
 
     googleOAuth: async (req, res, next) => {
-        signToken(req.user)
-            .then( (token) => {
-                return res.status(200).json({
-                    success: true,
-                    user: {
-                        email: req.user.email,
-                        name: req.user.name,
-                    },
-                    token: token,
-                })
+        try {
+            const token = signToken(req.user);
+            return res.status(200).json({
+                success: true,
+                user: {
+                    email: req.user.email,
+                    name: req.user.name,
+                },
+                token: token,
             })
-            .catch( (err) => {
-                next(err);
-            })
+        } catch (err) {
+            next(err);
+        }
     },
 
     facebookOAuth: async (req, res, next) => {
-        signToken(req.user)
-            .then( (token) => {
-                return res.status(200).json({
-                    success: true,
-                    user: {
-                        email: req.user.email,
-                        name: req.user.name,
-                    },
-                    token: token,
-                })
+        try {
+            const token = signToken(req.user);
+            return res.status(200).json({
+                success: true,
+                user: {
+                    email: req.user.email,
+                    name: req.user.name,
+                },
+                token: token,
             })
-            .catch( (err) => {
-                next(err);
-            })
+        } catch (err) {
+            next(err);
+        }
     },
 
     setPassword: async (req, res, next) => {
@@ -109,10 +110,12 @@ module.exports = {
 
         req.user.password = req.body.password;
         await req.user.hashPassword();
-        req.user.save();
-        return res.status(200).json({
-            success: true,
-            secret: "password was set"
-        })
+        req.user.save()
+            .then( () => {
+                return res.status(200).json({
+                    success: true,
+                    secret: "password was set"
+                })
+            })
     }
 }

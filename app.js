@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -22,12 +23,14 @@ mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?
 app = express();
 
 // Middlewares
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // Routes
 app.use('/users', require('./src/routes/users'));
 app.use('/products', require('./src/routes/products'));
+app.use('/consume', require('./src/routes/consumption'));
 
 
 app.use(require('./src/error-handler'));
