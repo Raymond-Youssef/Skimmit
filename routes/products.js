@@ -10,13 +10,13 @@ productsRouter.param('barcode',
     ProductsController.barcode
 );
 
-
+// Get all products
 productsRouter.get('/',
     ProductsController.readAll,
 );
 
 
-// Read product by id
+// Read product by barcode
 productsRouter.get('/:barcode',
     ProductsController.readOne
 );
@@ -43,7 +43,6 @@ productsRouter.delete('/:barcode',
     auth.adminAuth,
     ProductsController.delete,
 );
-
 
 
 module.exports = productsRouter;
