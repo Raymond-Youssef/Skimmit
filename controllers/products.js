@@ -71,7 +71,7 @@ module.exports = {
             .then( (product) => {
                 res.status(200).json({
                     success: true,
-                    deleted: product.id,
+                    deleted: product.barcode,
                 })
             })
             .catch( (err) => {
