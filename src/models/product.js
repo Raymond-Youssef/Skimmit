@@ -11,7 +11,9 @@ const productSchema = new Schema({
     },
     barcode: {
         type: Number,
-        required: [true, 'barcode is required']
+        required: [true, 'barcode is required'],
+        unique: true,
+        index: true,
     },
     imageURL: {
         type: String,

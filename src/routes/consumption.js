@@ -12,6 +12,13 @@ consumptionRouter.get('/',
 )
 
 
+// Get Consumption document by date
+consumptionRouter.get('/date/:date',
+    auth.userAuth,
+    ConsumptionController.dateConsumption
+)
+
+
 // Get all-time Consumption
 consumptionRouter.get('/all',
     auth.userAuth,
@@ -27,6 +34,5 @@ consumptionRouter.post('/',
 );
 
 
-
-
+// Export the router
 module.exports = consumptionRouter;

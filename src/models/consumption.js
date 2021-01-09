@@ -8,8 +8,12 @@ const consumptionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+        index: true,
     },
-    date: Date,
+    date: {
+        type: Date,
+        index: true,
+    },
     products:[{
         _id: false,
         name: String,

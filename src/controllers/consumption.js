@@ -16,6 +16,31 @@ module.exports = {
             })
     },
 
+    dateConsumption: async (req, res, next) => {
+        const dateRegEx = /^\d{4}-\d{2}-\d{2}$/;
+        if(!dateRegEx.test(req.params.date)) {
+            const err = new Error('date format must be yyyy-mm-dd');
+            err.status = 400;
+            next(err);
+        }
+        Consume.findOne({
+            userID:req.user.id,
+            date: req.params.date
+        }).then( document => {
+            if (!document) {
+                const err = new Error('no consumption were found on that date');
+                err.status = 404;
+                throw err;
+            }
+            return res.status(200).json({
+                success: true,
+                data: document,
+            })
+        })
+            .catch( err => {
+                next(err);
+            })
+    },
 
     allTimeConsumption: async (req, res, next) => {
         Consume.find({userID: req.user._id}).select('-userID')
