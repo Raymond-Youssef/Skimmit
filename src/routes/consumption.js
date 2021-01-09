@@ -6,7 +6,7 @@ const auth = require('../authenticate.js');
 
 
 consumptionRouter.post('/',
-    auth.userAuth,
+    auth.consumeAuth,
     validateBody(schemas.consumeProductSchema),
     ConsumptionController.consumeProduct,
 );
