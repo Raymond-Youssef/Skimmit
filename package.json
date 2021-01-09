@@ -4,6 +4,7 @@
   "description": "Graduation project from the Faculty of Science, Computer Science Department",
   "main": "app.js",
   "scripts": {
+    "start-prod": "node app.js",
     "start-dev": "nodemon app.js"
   },
   "repository": {
@@ -13,7 +14,9 @@
   "keywords": [
     "Fitness",
     "Health",
-    "Lifestyle"
+    "Lifestyle",
+    "API",
+    "Mondelez"
   ],
   "author": "Raymond",
   "license": "ISC",
