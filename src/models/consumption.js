@@ -15,15 +15,10 @@ const consumptionSchema = new Schema({
         name: String,
         barcode: Number,
         imageURL: String,
-        meta: {
-            calories: Number,
-            sodium: Number,
-            sugar: Number,
-        },
         quantity: {
             type: Number,
             default: 1,
-        }
+        },
     }],
     daily_calories: {
         type: Number,
@@ -47,7 +42,6 @@ consumptionSchema.methods.consumeProduct = async function (givenProduct, quantit
             name: givenProduct.name,
             barcode: givenProduct.barcode,
             imageURL: givenProduct.imageURL,
-            meta: givenProduct.meta,
             quantity: quantity,
         });
     }
