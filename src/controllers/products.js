@@ -19,6 +19,7 @@ module.exports = {
         const start = (page - 1) * PRODUCTS_PER_PAGE;
         const end = start + PRODUCTS_PER_PAGE;
         await Product.find({})
+            .populate('diseases', 'name')
             .then(products => {
                 const paginatedProducts = products.slice(start, end);
                 if(paginatedProducts.length === 0) {
@@ -39,6 +40,7 @@ module.exports = {
 
 
     readOne: async (req, res) => {
+        await req.product.populate('diseases','name').execPopulate()
         return res.status(200).json({
             success: true,
             data: req.product
@@ -47,31 +49,32 @@ module.exports = {
 
 
     create: async (req, res, next) => {
-        const {barcode} = req.value.body;
-        await Product.findOne({ barcode: barcode})
-            .then(async (product) => {
-                if (product) {
-                    const err = new Error('product already exists');
-                    err.status = 403;
-                    throw err;
-                }
-
-                // Create new product
-                const newProduct = new Product(req.value.body);
-                await newProduct.save();
-                return res.status(201).json({
-                    success: true,
-                    data: newProduct,
-                })
-            })
-            .catch( (err) => {
+        try {
+            const {barcode} = req.value.body;
+            // Check if a product with the same barcode exists
+            const product = await Product.findOne({ barcode: barcode});
+            if(product) {
+                const err = new Error('product already exists');
+                err.status = 403;
                 next(err);
+            }
+            // Create a new product
+            const newProduct = new Product(req.value.body);
+            await newProduct.save();
+            await newProduct.populate('diseases','name').execPopulate();
+            return res.status(201).json({
+                success: true,
+                data: newProduct,
             })
+        } catch (err) {
+            next(err);
+        }
     },
 
 
     update: async (req, res, next) => {
         await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
+            .populate('diseases', 'name')
             .then( (product) => {
                 return res.status(200).json({
                     success: true,
@@ -87,6 +90,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const product = await req.product.remove();
+            await product.populate('diseases', 'name').execPopulate();
             res.status(200).json({
                 success: true,
                 deleted: product,

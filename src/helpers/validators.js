@@ -1,4 +1,5 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 
 module.exports = {
     validateBody: (schema) => {
@@ -45,7 +46,8 @@ module.exports = {
                 calories: Joi.number(),
                 sodium: Joi.number(),
                 sugar: Joi.number(),
-            })
+            }),
+            diseases: Joi.array().items(Joi.objectId()),
         }),
 
         patchProductSchema: Joi.object().keys({
@@ -55,7 +57,8 @@ module.exports = {
                 calories: Joi.number(),
                 sodium: Joi.number(),
                 sugar: Joi.number(),
-            })
+            }),
+            diseases: Joi.array().items(Joi.objectId())
         }),
 
         diseaseSchema: Joi.object().keys({

@@ -28,11 +28,9 @@ const productSchema = new Schema({
         }
     },
     diseases: [{
-        diseaseID: {
-            type: Schema.Types.ObjectId,
-            ref: 'Disease',
-            required: true,
-        },
+        type: Schema.Types.ObjectId,
+        ref: 'Disease',
+        required: true,
     }],
 })
 
