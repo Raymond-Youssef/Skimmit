@@ -11,12 +11,22 @@ consumptionRouter.get('/',
     ConsumptionController.todayConsumption
 )
 
+
+// Get all-time Consumption
+consumptionRouter.get('/all',
+    auth.userAuth,
+    ConsumptionController.allTimeConsumption
+)
+
+
 // Consume a product
 consumptionRouter.post('/',
     auth.userAuth,
     validateBody(schemas.consumeProductSchema),
     ConsumptionController.consumeProduct,
 );
+
+
 
 
 module.exports = consumptionRouter;

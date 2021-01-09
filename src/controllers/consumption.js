@@ -30,5 +30,19 @@ module.exports = {
             .catch( err => {
                 next(err);
             })
-    }
+    },
+
+
+    allTimeConsumption: async (req, res, next) => {
+        Consume.find({userID: req.user._id}).select('-userID')
+            .then( documents => {
+                res.status(200).json({
+                    success: true,
+                    data: documents,
+                });
+            })
+            .catch( (err) => {
+                next(err);
+            })
+    },
 }

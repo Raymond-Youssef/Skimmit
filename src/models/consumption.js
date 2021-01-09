@@ -58,7 +58,7 @@ Consume.findOrCreateDailyConsumptionDocument = async function(user) {
         const existingConsumption = await Consume.findOne({
             userID: user.id,
             date: (new Date()).toISOString().split('T')[0]
-        })
+        }).select('-userID -_id -__v')
 
         if (existingConsumption) {
             return existingConsumption;
