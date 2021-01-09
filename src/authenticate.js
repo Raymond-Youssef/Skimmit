@@ -40,22 +40,6 @@ module.exports = {
             return next();
         })(req, res, next);
     },
-    consumeAuth: (req, res, next) => {
-        passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {
-            if (err || !user) {
-                const error = new Error('unauthorized');
-                error.status = 401;
-                return next(error);
-            }
-            if (!user.BMR) {
-                const error = new Error('you need to set your BMR');
-                error.status = 422;
-                return next(error);
-            }
-            req.user = user;
-            return next();
-        })(req, res, next);
-    },
 
     adminAuth: (req, res, next) => {
         passport.authenticate('JWT-Strategy', {session: false}, (err, user) => {

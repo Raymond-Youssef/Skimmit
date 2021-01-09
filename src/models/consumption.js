@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const {productSchema} = require('./product');
 
 
 // Create Schema
@@ -13,7 +12,14 @@ const consumptionSchema = new Schema({
     date: Date,
     products:[{
         _id: false,
-        product: productSchema,
+        name: String,
+        barcode: Number,
+        imageURL: String,
+        meta: {
+            calories: Number,
+            sodium: Number,
+            sugar: Number,
+        },
         quantity: {
             type: Number,
             default: 1,
@@ -32,13 +38,16 @@ consumptionSchema.index({date: 1, userID: 1}, {unique: true});
 
 consumptionSchema.methods.consumeProduct = async function (givenProduct, quantity){
     quantity = quantity?quantity:1;
-    const existingProductIndex = this.products.findIndex( product => product.product.barcode === givenProduct.barcode);
+    const existingProductIndex = this.products.findIndex( product => product.barcode === givenProduct.barcode);
     if(existingProductIndex !== -1) {
         this.products[existingProductIndex].quantity+=quantity;
     }
     else {
         this.products.push({
-            product: givenProduct,
+            name: givenProduct.name,
+            barcode: givenProduct.barcode,
+            imageURL: givenProduct.imageURL,
+            meta: givenProduct.meta,
             quantity: quantity,
         });
     }

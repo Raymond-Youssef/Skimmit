@@ -25,16 +25,19 @@ module.exports = {
                 .required()
                 .messages({ 'any.only': '{{#label}} does not match' })
         }),
+
         signinSchema: Joi.object().keys({
             email: Joi.string().email().required(),
             password: Joi.string().min(8).max(128).required(),
         }),
+
         passwordSettingSchema: Joi.object().keys({
             password: Joi.string().min(8).max(128).required(),
             confirm_password: Joi.string().equal(Joi.ref('password'))
                 .required()
                 .messages({ 'any.only': '{{#label}} does not match' })
         }),
+
         createProductSchema: Joi.object().keys({
             name: Joi.string().required(),
             barcode: Joi.number().required(),
@@ -44,6 +47,7 @@ module.exports = {
                 sugar: Joi.number(),
             })
         }),
+
         patchProductSchema: Joi.object().keys({
             name: Joi.string(),
             barcode: Joi.number(),
@@ -53,6 +57,11 @@ module.exports = {
                 sugar: Joi.number(),
             })
         }),
+
+        diseaseSchema: Joi.object().keys({
+            name: Joi.string().required(),
+        }),
+
         consumeProductSchema: Joi.object().keys({
             barcode: Joi.number().required(),
             quantity: Joi.number()

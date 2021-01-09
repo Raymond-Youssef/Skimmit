@@ -15,5 +15,10 @@ module.exports = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+
+
+    // todayConsumption: async (req, res, next) => {
+    //
+    // }
 }

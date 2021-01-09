@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 app.use('/users', require('./src/routes/users'));
 app.use('/products', require('./src/routes/products'));
 app.use('/consume', require('./src/routes/consumption'));
+app.use('/diseases', require('./src/routes/diseases'));
 
 
 app.use(require('./src/error-handler'));

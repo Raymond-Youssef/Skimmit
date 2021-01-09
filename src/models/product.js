@@ -26,7 +26,14 @@ const productSchema = new Schema({
         sugar: {
             type: Number,
         }
-    }
+    },
+    diseases: [{
+        diseaseID: {
+            type: Schema.Types.ObjectId,
+            ref: 'Disease',
+            required: true,
+        },
+    }],
 })
 
 

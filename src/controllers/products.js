@@ -13,6 +13,7 @@ module.exports = {
         }
     },
 
+
     readAll: async (req, res, next) => {
         const page = isNaN(req.query.page)? 1:Number(req.query.page);
         const start = (page - 1) * PRODUCTS_PER_PAGE;
@@ -36,12 +37,14 @@ module.exports = {
             } )
     },
 
+
     readOne: async (req, res) => {
         return res.status(200).json({
             success: true,
             data: req.product
         })
     },
+
 
     create: async (req, res, next) => {
         const {barcode} = req.value.body;
@@ -66,6 +69,7 @@ module.exports = {
             })
     },
 
+
     update: async (req, res, next) => {
         await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
             .then( (product) => {
@@ -79,16 +83,16 @@ module.exports = {
             })
     },
 
+
     delete: async (req, res, next) => {
-        req.product.remove()
-            .then( (product) => {
-                res.status(200).json({
-                    success: true,
-                    deleted: product.barcode,
-                })
+        try {
+            const product = await req.product.remove();
+            res.status(200).json({
+                success: true,
+                deleted: product,
             })
-            .catch( (err) => {
-                next(err);
-            })
+        } catch (err) {
+            next(err);
+        }
     }
 }
