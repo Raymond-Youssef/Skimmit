@@ -1,26 +1,15 @@
 const consumptionRouter = require('express').Router();
-// const Consume = require('../models/consumption');
-// const User = require('../models/user');
+const ConsumptionController = require('../controllers/consumption');
+const {validateBody, schemas} = require('../helpers/validators');
+
+const auth = require('../authenticate.js');
 
 
-// consumptionRouter.get('/',
-//     async (req, res, next) => {
-//         const newUser = new User({
-//             name: "test user",
-//             email: "test@test.com"
-//         });
-//         await newUser.save()
-//             .then( async newUser => {
-//                 const consumption = new Consume({
-//                     date: '2020-1-7',
-//                     user: newUser
-//                 })
-//                 return await consumption.save();
-//             })
-//             .then( consumption => {
-//                 console.log(consumption);
-//             })
-//     })
+consumptionRouter.post('/',
+    auth.userAuth,
+    validateBody(schemas.consumeProductSchema),
+    ConsumptionController.consumeProduct,
+);
 
 
 module.exports = consumptionRouter;

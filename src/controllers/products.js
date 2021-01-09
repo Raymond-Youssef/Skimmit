@@ -3,24 +3,14 @@ const PRODUCTS_PER_PAGE = 5;
 
 module.exports = {
     barcode: async (req, res, next, barcode) => {
-        await Product.findOne({barcode: barcode})
-            .then( (product) => {
-                // Case product does not exist
-                if(!product) {
-                    const err = new Error('product not found');
-                    err.status = 404;
-                    return next(err);
-                }
-                // Attach product to request
-                req.product = product;
-                req.productID = product.id;
-                next();
-            })
-            .catch( () => {
-                const err = new Error('barcode must be numeric');
-                err.status = 400;
-                next(err);
-            })
+        try {
+            const product = await Product.findByBarcode(barcode);
+            req.product = product;
+            req.productID = product.id;
+            next();
+        } catch (err) {
+            next(err);
+        }
     },
 
     readAll: async (req, res, next) => {

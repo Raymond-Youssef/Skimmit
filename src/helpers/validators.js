@@ -52,6 +52,10 @@ module.exports = {
                 sodium: Joi.number(),
                 sugar: Joi.number(),
             })
+        }),
+        consumeProductSchema: Joi.object().keys({
+            barcode: Joi.number().required(),
+            quantity: Joi.number()
         })
     }
 }
