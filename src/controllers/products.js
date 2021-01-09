@@ -56,7 +56,7 @@ module.exports = {
             if(product) {
                 const err = new Error('product already exists');
                 err.status = 403;
-                next(err);
+                return next(err);
             }
             // Create a new product
             const newProduct = new Product(req.value.body);
