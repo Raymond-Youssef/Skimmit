@@ -6,7 +6,7 @@ const auth = require('../authenticate.js');
 
 
 // Get today's Consumption
-consumptionRouter.get('/',
+consumptionRouter.get('/today',
     auth.userAuth,
     ConsumptionController.todayConsumption
 )
