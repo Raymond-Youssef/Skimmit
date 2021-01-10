@@ -21,6 +21,7 @@ module.exports = {
             signup: Joi.object().keys({
                 email: Joi.string().email().required(),
                 name: Joi.string().min(5).max(30).required(),
+                // gender: Joi.string().valid('male', 'female'), // TODO: you may add this later
                 password: Joi.string().min(8).max(128).required(),
                 confirm_password: Joi.string().equal(Joi.ref('password'))
                     .required()
