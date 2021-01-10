@@ -65,7 +65,7 @@ module.exports = {
                     sugar: Joi.number(),
                 }),
                 category: Joi.string().valid('canned', 'snacks', 'meals', 'drinks', 'uncategorized'),
-                diseases:Joi.array().unique().items(Joi.string().trim().lowercase().regex(/^[0-9a-f]{24}$/))
+                diseases:Joi.array().unique().items(Joi.string().trim().lowercase().regex(/^[0-9a-fA-F]{24}$/))
             }),
 
             patch: Joi.object().keys({
@@ -77,7 +77,7 @@ module.exports = {
                     sugar: Joi.number(),
                 }),
                 category: Joi.string().valid('canned', 'snacks', 'meals', 'drinks', 'uncategorized'),
-                diseases:Joi.array().unique().items(Joi.string().trim().lowercase().regex(/^[0-9a-f]{24}$/))
+                diseases:Joi.array().unique().items(Joi.string().trim().lowercase().regex(/^[0-9a-fA-F]{24}$/))
             }),
         },
         consumption: {

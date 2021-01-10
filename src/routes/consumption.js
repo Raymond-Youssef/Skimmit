@@ -11,6 +11,10 @@ consumptionRouter.get('/today',
     ConsumptionController.todayConsumption
 )
 
+consumptionRouter.get('/week',
+    auth.userAuth,
+    ConsumptionController.weekConsumption
+);
 
 // Get Consumption document by date
 consumptionRouter.get('/date/:date',

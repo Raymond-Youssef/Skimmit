@@ -16,6 +16,25 @@ module.exports = {
             })
     },
 
+
+    weekConsumption: async (req, res, next) => {
+        try{
+            let cutoff = new Date();
+            cutoff.setDate(cutoff.getDate()-7);
+            const weekConsumption = await Consume.find({
+                userID: req.user.id,
+                date: {$gte: cutoff},
+            })
+            res.status(200).json({
+                success: true,
+                data: weekConsumption
+            })
+        } catch (err) {
+            next(err);
+        }
+    },
+
+
     dateConsumption: async (req, res, next) => {
         const dateRegEx = /^\d{4}-\d{2}-\d{2}$/;
         if(!dateRegEx.test(req.params.date)) {
@@ -41,6 +60,7 @@ module.exports = {
                 next(err);
             })
     },
+
 
     allTimeConsumption: async (req, res, next) => {
         Consume.find({userID: req.user._id}).select('-userID')
