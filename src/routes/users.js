@@ -30,10 +30,18 @@ usersRouter.post('/oauth/facebook',
 );
 
 
-usersRouter.post('/setPassword',
+usersRouter.post('/password/set',
     auth.userAuth,
     validateBody(schemas.passwordSettingSchema),
     UsersController.setPassword
 );
+
+
+usersRouter.post('/password/reset',
+    auth.userAuth,
+    validateBody(schemas.passwordResettingSchema),
+    UsersController.resetPassword
+);
+
 
 module.exports = usersRouter;

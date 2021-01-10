@@ -39,6 +39,14 @@ module.exports = {
                 .messages({ 'any.only': '{{#label}} does not match' })
         }),
 
+        passwordResettingSchema: Joi.object().keys({
+            old_password: Joi.string().min(8).max(128).required(),
+            new_password: Joi.string().min(8).max(128).required(),
+            confirm_password: Joi.string().equal(Joi.ref('new_password'))
+                .required()
+                .messages({ 'any.only': '{{#label}} does not match' })
+        }),
+
         createProductSchema: Joi.object().keys({
             name: Joi.string().required(),
             barcode: Joi.number().required(),

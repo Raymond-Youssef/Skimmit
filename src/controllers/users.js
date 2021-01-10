@@ -117,5 +117,27 @@ module.exports = {
                     secret: "password was set"
                 })
             })
+    },
+
+
+    resetPassword: async (req, res, next) => {
+        try {
+            const isMatch = await req.user.isValidPassword(req.value.body.old_password);
+            if (!isMatch) {
+                const err = new Error('The password is not correct');
+                err.status = 401;
+                return next(err);
+            }
+            req.user.password = req.value.body.new_password;
+            await req.user.hashPassword();
+            await req.user.save();
+            return res.status(200).json({
+                success: true,
+                message: "password was reset successfully",
+            });
+        } catch (err) {
+            next(err);
+        }
+
     }
 }
