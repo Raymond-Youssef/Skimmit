@@ -62,6 +62,18 @@ const userSchema = new Schema({
 })
 
 
+userSchema.pre('save', async function(next) {
+    try {
+        if(this.age && this.height && this.weight) {
+            this.BMR = 300; //TODO: calculate BMR later
+        }
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+
 userSchema.methods.hashPassword = async function() {
     try{
         // Generate salt

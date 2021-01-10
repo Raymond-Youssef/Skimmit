@@ -27,6 +27,14 @@ module.exports = {
                 .messages({ 'any.only': '{{#label}} does not match' })
         }),
 
+
+        userUpdateSchema: Joi.object().keys({
+            age: Joi.number().min(8).max(100),
+            gender: Joi.string().valid('male', 'female'),
+            height: Joi.number().min(50).max(250),
+            weight: Joi.number().min(20),
+        }),
+
         signinSchema: Joi.object().keys({
             email: Joi.string().email().required(),
             password: Joi.string().min(8).max(128).required(),
