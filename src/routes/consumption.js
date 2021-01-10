@@ -29,7 +29,7 @@ consumptionRouter.get('/all',
 // Consume a product
 consumptionRouter.post('/',
     auth.userAuth,
-    validateBody(schemas.consumeProductSchema),
+    validateBody(schemas.consumption.consume),
     ConsumptionController.consumeProduct,
 );
 

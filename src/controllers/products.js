@@ -1,4 +1,5 @@
 const {Product} = require('../models/product');
+const {Disease} = require('../models/disease');
 const PRODUCTS_PER_PAGE = 5;
 
 module.exports = {
@@ -16,12 +17,12 @@ module.exports = {
 
     readAll: async (req, res, next) => {
         const page = isNaN(req.query.page)? 1:Number(req.query.page);
-        const start = (page - 1) * PRODUCTS_PER_PAGE;
-        const end = start + PRODUCTS_PER_PAGE;
-        await Product.find({})
+        Product.find({})
+            .limit(PRODUCTS_PER_PAGE)
+            .skip(page*PRODUCTS_PER_PAGE)
             .populate('diseases', 'name')
             .then(products => {
-                const paginatedProducts = products.slice(start, end);
+                const paginatedProducts = products.slice(start, end); // TODO: fix this
                 if(paginatedProducts.length === 0) {
                     const err = new Error('page is empty');
                     err.status = 404;
@@ -60,6 +61,7 @@ module.exports = {
             }
             // Create a new product
             const newProduct = new Product(req.value.body);
+            await Disease.validateDiseases(req.value.body.diseases);
             await newProduct.save();
             await newProduct.populate('diseases','name').execPopulate();
             return res.status(201).json({
@@ -73,17 +75,22 @@ module.exports = {
 
 
     update: async (req, res, next) => {
-        await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
-            .populate('diseases', 'name')
-            .then( (product) => {
-                return res.status(200).json({
-                    success: true,
-                    data: product,
+        try{
+            await Disease.validateDiseases(req.value.body.diseases);
+            await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
+                .populate('diseases', 'name')
+                .then( (product) => {
+                    return res.status(200).json({
+                        success: true,
+                        data: product,
+                    })
                 })
-            })
-            .catch((err) => {
-                next(err);
-            })
+                .catch((err) => {
+                    next(err);
+                })
+        } catch (err) {
+            next(err);
+        }
     },
 
 

@@ -29,6 +29,12 @@ const productSchema = new Schema({
             type: Number,
         }
     },
+    category: {
+        type: String,
+        enum: ['canned', 'snacks', 'meals', 'drinks', 'uncategorized'],
+        required: true,
+        default: 'uncategorized',
+    },
     diseases: [{
         type: Schema.Types.ObjectId,
         ref: 'Disease',
@@ -40,12 +46,14 @@ const productSchema = new Schema({
 // Create a model
 const Product = mongoose.model('Product', productSchema);
 
+
 Product.findByBarcode = async function(barcode) {
     if(isNaN(barcode)) {
         const err = new Error('barcode must be a number');
         err.status = 400;
         throw err;
     }
+
     const product = await Product.findOne({barcode: barcode});
     if (!product) {
         const err = new Error('product not found');

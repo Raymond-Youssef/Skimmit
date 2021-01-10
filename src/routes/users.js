@@ -6,13 +6,13 @@ const auth = require('../authenticate.js');
 
 
 usersRouter.post('/signup',
-    validateBody(schemas.signupSchema),
+    validateBody(schemas.users.signup),
     UsersController.signUp
 );
 
 
 usersRouter.post('/signin',
-    validateBody(schemas.signinSchema),
+    validateBody(schemas.users.signin),
     auth.localStrategy, // This will attach req.user
     UsersController.signIn
 );
@@ -32,20 +32,20 @@ usersRouter.post('/oauth/facebook',
 
 usersRouter.post('/password/set',
     auth.userAuth,
-    validateBody(schemas.passwordSettingSchema),
+    validateBody(schemas.users.setPassword),
     UsersController.setPassword
 );
 
 
 usersRouter.post('/password/reset',
     auth.userAuth,
-    validateBody(schemas.passwordResettingSchema),
+    validateBody(schemas.users.resetPassword),
     UsersController.resetPassword
 );
 
 usersRouter.patch('/',
     auth.userAuth,
-    validateBody(schemas.userUpdateSchema),
+    validateBody(schemas.users.update),
     UsersController.update,
 );
 

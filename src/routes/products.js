@@ -25,7 +25,7 @@ productsRouter.get('/:barcode',
 // Create a new product
 productsRouter.post('/',
     auth.adminAuth,
-    validateBody(schemas.createProductSchema),
+    validateBody(schemas.products.create),
     ProductsController.create,
 );
 
@@ -33,7 +33,7 @@ productsRouter.post('/',
 // Update an existing product
 productsRouter.patch('/:barcode',
     auth.adminAuth,
-    validateBody(schemas.patchProductSchema),
+    validateBody(schemas.products.patch),
     ProductsController.update,
 );
 
