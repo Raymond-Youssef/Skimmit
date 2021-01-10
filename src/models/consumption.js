@@ -8,11 +8,9 @@ const consumptionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-        index: true,
     },
     date: {
         type: Date,
-        index: true,
     },
     products:[{
         _id: false,
@@ -31,10 +29,12 @@ const consumptionSchema = new Schema({
     }
 })
 
+
 // Combination of date and userID must be unique
 consumptionSchema.index({date: 1, userID: 1}, {unique: true});
 
 
+// Function to Consume a product
 consumptionSchema.methods.consumeProduct = async function (givenProduct, quantity){
     quantity = quantity?quantity:1;
     const existingProductIndex = this.products.findIndex( product => product.barcode === givenProduct.barcode);
@@ -57,12 +57,15 @@ consumptionSchema.methods.consumeProduct = async function (givenProduct, quantit
 // Create a model
 const Consume = mongoose.model('Consume', consumptionSchema);
 
+
+// Consumption document
 Consume.findOrCreateDailyConsumptionDocument = async function(user) {
     try {
+        const todayDate = (new Date()).toISOString().split('T')[0];
         const existingConsumption = await Consume.findOne({
             userID: user.id,
-            date: (new Date()).toISOString().split('T')[0]
-        }).select('-userID -_id -__v')
+            date: todayDate,
+        })
 
         if (existingConsumption) {
             return existingConsumption;
@@ -70,7 +73,7 @@ Consume.findOrCreateDailyConsumptionDocument = async function(user) {
 
         const newConsumption = new Consume({
             userID: user.id,
-            date: (new Date()).toISOString().split('T')[0],
+            date: todayDate,
         });
         await newConsumption.save();
         return newConsumption;
@@ -78,9 +81,6 @@ Consume.findOrCreateDailyConsumptionDocument = async function(user) {
         throw new Error(err);
     }
 }
-
-
-
 
 
 // Export the model
