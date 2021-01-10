@@ -42,7 +42,8 @@ const userSchema = new Schema({
     gender: {
         type: String,
         enum: ['male', 'female'],
-        required: false
+        required: true,
+        default: 'male',
     },
     height: {
         type: Number,
@@ -55,7 +56,8 @@ const userSchema = new Schema({
     },
     BMR: {
         type: Number,
-        required: false
+        required: false,
+        default: 0,
     },
 },{
     timestamps: true

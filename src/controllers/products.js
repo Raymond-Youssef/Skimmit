@@ -19,18 +19,17 @@ module.exports = {
         const page = isNaN(req.query.page)? 1:Number(req.query.page);
         Product.find({})
             .limit(PRODUCTS_PER_PAGE)
-            .skip(page*PRODUCTS_PER_PAGE)
+            .skip((page-1)*PRODUCTS_PER_PAGE)
             .populate('diseases', 'name')
             .then(products => {
-                const paginatedProducts = products.slice(start, end); // TODO: fix this
-                if(paginatedProducts.length === 0) {
+                if(products.length === 0) {
                     const err = new Error('page is empty');
                     err.status = 404;
                     throw err;
                 }
                 return res.status(200).json({
                     success: true,
-                    data: paginatedProducts,
+                    data: products,
                     page: page,
                 })
             })
