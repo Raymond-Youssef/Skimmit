@@ -64,8 +64,13 @@ const userSchema = new Schema({
 
 userSchema.pre('save', async function(next) {
     try {
-        if(this.age && this.height && this.weight) {
-            this.BMR = 300; //TODO: calculate BMR later
+        if(this.age && this.height && this.weight && this.gender) {
+            if (this.gender === 'male') {
+                this.BMR = 10*this.weight + 6.25*this.height - 5*this.age +5;
+            }
+            else if (this.gender === 'female') {
+                this.BMR = 10*this.weight + 6.25*this.height - 5*this.age -161;
+            }
         }
         next();
     } catch (err) {
