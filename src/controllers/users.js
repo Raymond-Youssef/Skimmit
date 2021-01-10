@@ -164,27 +164,26 @@ module.exports = {
             console.log(req.user);
             // if age is given, set it
             if(req.value.body.age) {
-                req.user.age = req.value.body.age;
+                req.user.meta.age = req.value.body.age;
             }
 
 
             // if gender is given, set it
             if(req.value.body.gender) {
-                req.user.gender = req.value.body.gender;
+                req.user.meta.gender = req.value.body.gender;
             }
 
             // if height is given, set it
             if(req.value.body.height) {
-                req.user.height = req.value.body.height;
-
+                req.user.meta.height = req.value.body.height;
             }
+
             // if weight is given, set it
             if(req.value.body.weight) {
-                req.user.weight = req.value.body.weight;
-
+                req.user.meta.weight = req.value.body.weight;
             }
+
             await req.user.save();
-            console.log(req.user);
             return res.status(200).json({
                 success: true,
                 message: "profile updates successfully"
@@ -193,4 +192,19 @@ module.exports = {
             next(err);
         }
     },
+
+    profile: async (req, res ,next) => {
+        try{
+            res.status(200).json({
+                success: true,
+                data: {
+                    name: req.user.name,
+                    email: req.user.email,
+                    meta: req.user.meta,
+                },
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }

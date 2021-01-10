@@ -33,31 +33,33 @@ const userSchema = new Schema({
         minlength: [5, 'names can not be shorter than 5 characters'],
         maxlength: [30, 'names can not be longer than 30 characters']
     },
-    age: {
-        type: Number,
-        required: false,
-        min: [10, 'age can not be less than 10'],
-        max: [100, 'age can not be more than 100']
-    },
-    gender: {
-        type: String,
-        enum: ['male', 'female'],
-        required: true,
-        default: 'male',
-    },
-    height: {
-        type: Number,
-        min: [0, 'height can not be negative'],
-        required: false
-    },
-    weight: {
-        type: Number,
-        required: false
-    },
-    BMR: {
-        type: Number,
-        required: false,
-        default: 0,
+    meta: {
+        age: {
+            type: Number,
+            required: false,
+            min: [10, 'age can not be less than 10'],
+            max: [100, 'age can not be more than 100']
+        },
+        gender: {
+            type: String,
+            enum: ['male', 'female'],
+            required: true,
+            default: 'male',
+        },
+        height: {
+            type: Number,
+            min: [0, 'height can not be negative'],
+            required: false
+        },
+        weight: {
+            type: Number,
+            required: false
+        },
+        BMR: {
+            type: Number,
+            required: false,
+            default: 0,
+        },
     },
 },{
     timestamps: true
@@ -66,12 +68,12 @@ const userSchema = new Schema({
 
 userSchema.pre('save', async function(next) {
     try {
-        if(this.age && this.height && this.weight && this.gender) {
-            if (this.gender === 'male') {
-                this.BMR = 10*this.weight + 6.25*this.height - 5*this.age +5;
+        if(this.meta.age && this.meta.height && this.meta.weight && this.meta.gender) {
+            if (this.meta.gender === 'male') {
+                this.meta.BMR = 10*this.meta.weight + 6.25*this.meta.height - 5*this.meta.age +5;
             }
-            else if (this.gender === 'female') {
-                this.BMR = 10*this.weight + 6.25*this.height - 5*this.age -161;
+            else if (this.meta.gender === 'female') {
+                this.meta.BMR = 10*this.meta.weight + 6.25*this.meta.height - 5*this.meta.age -161;
             }
         }
         next();

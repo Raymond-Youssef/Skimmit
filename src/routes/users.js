@@ -43,10 +43,18 @@ usersRouter.post('/password/reset',
     UsersController.resetPassword
 );
 
+
 usersRouter.patch('/',
     auth.userAuth,
     validateBody(schemas.users.update),
     UsersController.update,
 );
+
+
+usersRouter.get('/profile',
+    auth.userAuth,
+    UsersController.profile,
+);
+
 
 module.exports = usersRouter;
