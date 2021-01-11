@@ -161,7 +161,6 @@ module.exports = {
 
     update: async (req, res, next) => {
         try{
-            console.log(req.user);
             // if age is given, set it
             if(req.value.body.age) {
                 req.user.meta.age = req.value.body.age;
