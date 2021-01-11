@@ -28,24 +28,6 @@ module.exports = {
                 }
             })
             .then( async () => {
-                // TODO: fix this
-                // let newUser;
-                // Create new user
-                // if (gender) {
-                //     newUser = new User( {
-                //         email: email,
-                //         gender: gender,
-                //         password: password,
-                //         name: name,
-                //     })
-                // }
-                // else {
-                //     newUser = new User( {
-                //         email: email,
-                //         password: password,
-                //         name: name,
-                //     })
-                // }
                 const newUser = new User( {
                     email: email,
                     password: password,
