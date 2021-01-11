@@ -61,6 +61,7 @@ module.exports = {
             create: Joi.object().keys({
                 name: Joi.string().required(),
                 barcode: Joi.number().required(),
+                imageURL: Joi.string().uri(),
                 meta: Joi.object().keys({
                     calories: Joi.number(),
                     sodium: Joi.number(),
@@ -73,6 +74,7 @@ module.exports = {
             patch: Joi.object().keys({
                 name: Joi.string(),
                 barcode: Joi.number(),
+                imageURL: Joi.string().uri(),
                 meta: Joi.object().keys({
                     calories: Joi.number(),
                     sodium: Joi.number(),
