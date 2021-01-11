@@ -129,4 +129,28 @@ module.exports = {
                 next(err);
             })
     },
+
+
+    category: async (req, res, next) => {
+        const page = isNaN(req.query.page)? 1:Number(req.query.page);
+        await Product.find({category: req.params.categoryName})
+            .limit(PRODUCTS_PER_PAGE)
+            .skip((page-1)*PRODUCTS_PER_PAGE)
+            .populate('diseases', 'name')
+            .then( products => {
+                if(products.length === 0) {
+                    const err = new Error('no results were found');
+                    err.status = 404;
+                    throw err;
+                }
+                return res.status(200).json({
+                    success: true,
+                    data: products,
+                    page: page,
+                })
+            })
+            .catch( err => {
+                next(err);
+            })
+    }
 }

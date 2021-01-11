@@ -55,6 +55,8 @@ module.exports = {
                     .messages({ 'any.only': '{{#label}} does not match' })
             }),
         },
+
+
         products: {
             create: Joi.object().keys({
                 name: Joi.string().required(),
@@ -80,6 +82,8 @@ module.exports = {
                 diseases:Joi.array().unique().items(Joi.string().trim().lowercase().regex(/^[0-9a-fA-F]{24}$/))
             }),
         },
+
+
         consumption: {
             consume: Joi.object().keys({
                 barcode: Joi.number().required(),

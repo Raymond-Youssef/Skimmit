@@ -17,6 +17,12 @@ productsRouter.get('/',
 );
 
 
+// Get products by Category
+productsRouter.get('/category/:categoryName',
+    ProductsController.category,
+);
+
+
 // Search Product by Name
 productsRouter.get('/search/:productName',
     ProductsController.search
