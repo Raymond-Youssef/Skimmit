@@ -6,8 +6,10 @@ module.exports = [
         next(err);
     },
     (err, req, res, next) => {
-        res.status(err.status?err.status:500).json({
+        const status = err.status?err.status:500;
+        res.status(status).json({
             success: false,
+            error: status,
             message: err.message,
         });
         next();
