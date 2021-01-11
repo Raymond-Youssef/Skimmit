@@ -41,7 +41,7 @@ app.use('/diseases', require('./src/routes/diseases'));
 app.use(require('./src/error-handler'));
 
 // Start server
-const PORT = process.env.EXPRESS_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Express is listening on Port: ${PORT}`)
 })
