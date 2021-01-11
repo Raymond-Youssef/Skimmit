@@ -139,7 +139,7 @@ module.exports = {
             .populate('diseases', 'name')
             .then( products => {
                 if(products.length === 0) {
-                    const err = new Error('no results were found');
+                    const err = new Error('no results are found in the given category');
                     err.status = 404;
                     throw err;
                 }
