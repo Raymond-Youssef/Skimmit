@@ -10,9 +10,16 @@ productsRouter.param('barcode',
     ProductsController.barcode
 );
 
+
 // Get all products
 productsRouter.get('/',
     ProductsController.readAll,
+);
+
+
+// Search Product by Name
+productsRouter.get('/search/:productName',
+    ProductsController.search
 );
 
 
