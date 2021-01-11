@@ -60,7 +60,10 @@ module.exports = {
             }
             // Create a new product
             const newProduct = new Product(req.value.body);
-            await Disease.validateDiseases(req.value.body.diseases);
+            if(req.value.body.diseases)
+            {
+                await Disease.validateDiseases(req.value.body.diseases);
+            }
             await newProduct.save();
             await newProduct.populate('diseases','name').execPopulate();
             return res.status(201).json({
@@ -75,7 +78,10 @@ module.exports = {
 
     update: async (req, res, next) => {
         try{
-            await Disease.validateDiseases(req.value.body.diseases);
+            if(req.value.body.diseases)
+            {
+                await Disease.validateDiseases(req.value.body.diseases);
+            }
             await Product.findByIdAndUpdate(req.productID, {$set: req.value.body}, {new: true})
                 .populate('diseases', 'name')
                 .then( (product) => {

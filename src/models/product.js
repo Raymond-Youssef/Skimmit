@@ -15,25 +15,21 @@ const productSchema = new Schema({
         unique: true,
         index: true,
     },
-    imageURL: {
-        type: String,
-    },
-    meta: {
-        calories: {
-            type: Number,
-        },
-        sodium: {
-            type: Number,
-        },
-        sugar: {
-            type: Number,
-        }
-    },
+    imageURL: String,
     category: {
         type: String,
         enum: ['canned', 'snacks', 'meals', 'drinks', 'uncategorized'],
         required: true,
         default: 'uncategorized',
+    },
+    meta: {
+        calories: Number,
+        sugar: String,
+        calcium: String,
+        iron: String,
+        saturated_fat: String,
+        trans_fat: String,
+        cholesterol: String,
     },
     diseases: [{
         type: Schema.Types.ObjectId,
