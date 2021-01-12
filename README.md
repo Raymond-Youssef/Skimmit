@@ -65,7 +65,7 @@ Import the collection in the file `Mondelez.postman_collection.json` to Postman 
 but make sure you set your base_url.
 
 ## API Reference
-* Base URL: this application is deployd on [Heroku](https://www.heroku.com/) with a base url `https://protected-peak-76158.herokuapp.com/`.
+* Base URL: this application is deployd on [Heroku](https://www.heroku.com/) with a base url `https://mondelez-api.herokuapp.com`.
 However, if you run it locally it will be hosted at the default, `http://127.0.0.1:3000/`.
 * API Documentation: You can find full API documentation here [Mondelez API Documentation](https://documenter.getpostman.com/view/12538552/TVzRGJLA)
 * Authentication: A full explanation of the authentication techniques in the full API Documentation.
