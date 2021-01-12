@@ -13,6 +13,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
+        minlength: 8,
         default: null,
     },
     googleID: {
@@ -37,8 +38,8 @@ const userSchema = new Schema({
         age: {
             type: Number,
             required: false,
-            min: [10, 'age can not be less than 10'],
-            max: [100, 'age can not be more than 100']
+            min: [15, 'age can not be less than 15'],
+            max: [80, 'age can not be more than 100']
         },
         gender: {
             type: String,
@@ -48,11 +49,14 @@ const userSchema = new Schema({
         },
         height: {
             type: Number,
-            min: [0, 'height can not be negative'],
+            min: 50,
+            max: 300,
             required: false
         },
         weight: {
             type: Number,
+            min: 20,
+            max: 300,
             required: false
         },
         BMR: {

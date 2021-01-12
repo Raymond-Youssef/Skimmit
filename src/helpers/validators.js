@@ -34,10 +34,10 @@ module.exports = {
             }),
 
             update: Joi.object().keys({
-                age: Joi.number().min(8).max(100),
+                age: Joi.number().min(15).max(80),
                 gender: Joi.string().valid('male', 'female'),
-                height: Joi.number().min(50).max(250),
-                weight: Joi.number().min(20),
+                height: Joi.number().min(50).max(300),
+                weight: Joi.number().min(20).max(300),
             }),
 
             setPassword: Joi.object().keys({
