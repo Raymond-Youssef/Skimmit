@@ -16,6 +16,23 @@ module.exports = {
             })
     },
 
+    yesterdayConsumption: async (req, res, next) => {
+        try{
+            let cutoff = new Date();
+            cutoff.setDate(cutoff.getDate()-1);
+            const yesterdayDate = (cutoff).toISOString().split('T')[0];
+            const yesterdayConsumption = await Consume.findOne({
+                userID: req.user.id,
+                date: yesterdayDate,
+            })
+            res.status(200).json({
+                success: true,
+                data: yesterdayConsumption
+            })
+        } catch (err) {
+            next(err);
+        }
+    },
 
     weekConsumption: async (req, res, next) => {
         try{

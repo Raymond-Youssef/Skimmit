@@ -1,6 +1,6 @@
 const {Product} = require('../models/product');
 const {Disease} = require('../models/disease');
-const PRODUCTS_PER_PAGE = 5;
+const PRODUCTS_PER_PAGE = 10;
 
 module.exports = {
     barcode: async (req, res, next, barcode) => {

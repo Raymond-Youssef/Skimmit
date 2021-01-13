@@ -11,6 +11,11 @@ consumptionRouter.get('/today',
     ConsumptionController.todayConsumption
 )
 
+consumptionRouter.get('/yesterday',
+    auth.userAuth,
+    ConsumptionController.yesterdayConsumption
+)
+
 consumptionRouter.get('/week',
     auth.userAuth,
     ConsumptionController.weekConsumption
