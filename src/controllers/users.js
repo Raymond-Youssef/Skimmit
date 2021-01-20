@@ -17,7 +17,7 @@ const signToken = user => {
 // Controllers
 module.exports = {
     signUp: async (req, res, next) => {
-        const {email, password, name} = req.value.body; // TODO: Gender is added here
+        const {email, password, name} = req.value.body;
         await User.findOne({email: email})
             .then((foundUser) => {
                 // If user exists in database
