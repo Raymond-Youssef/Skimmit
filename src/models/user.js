@@ -31,7 +31,7 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: [true, 'name is required'],
-        minlength: [5, 'names can not be shorter than 5 characters'],
+        minlength: [3, 'names can not be shorter than 5 characters'],
         maxlength: [30, 'names can not be longer than 30 characters']
     },
     meta: {

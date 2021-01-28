@@ -20,7 +20,7 @@ module.exports = {
         users: {
             signup: Joi.object().keys({
                 email: Joi.string().email().required(),
-                name: Joi.string().min(5).max(30).required(),
+                name: Joi.string().min(3).max(30).required(),
                 password: Joi.string().min(8).max(128).required(),
                 confirm_password: Joi.string().equal(Joi.ref('password'))
                     .required()
@@ -33,7 +33,7 @@ module.exports = {
             }),
 
             update: Joi.object().keys({
-                name: Joi.string().min(5).max(30),
+                name: Joi.string().min(3).max(30),
                 age: Joi.number().min(15).max(80),
                 gender: Joi.string().valid('male', 'female'),
                 height: Joi.number().min(50).max(300),
