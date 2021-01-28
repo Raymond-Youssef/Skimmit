@@ -143,12 +143,19 @@ module.exports = {
 
     update: async (req, res, next) => {
         try{
+
+            // if name is given, set it
+
+            if(req.value.body.name) {
+                req.user.name = req.value.body.name;
+            }
+
             // if age is given, set it
             if(req.value.body.age) {
                 req.user.meta.age = req.value.body.age;
             }
 
-
+            
             // if gender is given, set it
             if(req.value.body.gender) {
                 req.user.meta.gender = req.value.body.gender;
