@@ -10,8 +10,8 @@ const signToken = user => {
         sub: user.id,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() + 7) // Current date + 7 day ahead
-    }, JWT_SECRET)
-}
+    }, JWT_SECRET);
+};
 
 
 // Controllers
@@ -32,7 +32,7 @@ module.exports = {
                     email: email,
                     password: password,
                     name: name,
-                })
+                });
                 // Hash password before saving
                 await newUser.hashPassword();
                 await newUser.save();
@@ -49,11 +49,11 @@ module.exports = {
                         name: newUser.name,
                     },
                     token: token,
-                })
+                });
             })
             .catch( (err) => {
                 next(err);
-            } )
+            } );
     },
 
     signIn: async (req, res) => {
@@ -65,7 +65,7 @@ module.exports = {
                 name: req.user.name,
             },
             token: token,
-        })
+        });
     },
 
     googleOAuth: async (req, res, next) => {
@@ -78,7 +78,7 @@ module.exports = {
                     name: req.user.name,
                 },
                 token: token,
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -94,7 +94,7 @@ module.exports = {
                     name: req.user.name,
                 },
                 token: token,
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -113,9 +113,9 @@ module.exports = {
             .then( () => {
                 return res.status(200).json({
                     success: true,
-                    secret: "password was set"
-                })
-            })
+                    secret: 'password was set'
+                });
+            });
     },
 
 
@@ -132,7 +132,7 @@ module.exports = {
             await req.user.save();
             return res.status(200).json({
                 success: true,
-                message: "password was reset successfully",
+                message: 'password was reset successfully',
             });
         } catch (err) {
             next(err);
@@ -174,8 +174,8 @@ module.exports = {
             await req.user.save();
             return res.status(200).json({
                 success: true,
-                message: "profile updates successfully"
-            })
+                message: 'profile updates successfully'
+            });
         } catch (err) {
             next(err);
         }
@@ -195,4 +195,4 @@ module.exports = {
             next(err);
         }
     }
-}
+};

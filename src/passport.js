@@ -12,13 +12,13 @@ const User = require('./models/user');
 // Environment Variables
 const JWT_SECRET = process.env.JWT_SECRET;
 const googleConfig = {
-    CLIENT_ID: process.env["google.CLIENT_ID"],
-    CLIENT_SECRET: process.env["google.CLIENT_SECRET"],
-}
+    CLIENT_ID: process.env['google.CLIENT_ID'],
+    CLIENT_SECRET: process.env['google.CLIENT_SECRET'],
+};
 const facebookConfig = {
-    CLIENT_ID: process.env["facebook.CLIENT_ID"],
-    CLIENT_SECRET: process.env["facebook.CLIENT_SECRET"],
-}
+    CLIENT_ID: process.env['facebook.CLIENT_ID'],
+    CLIENT_SECRET: process.env['facebook.CLIENT_SECRET'],
+};
 
 
 // JWT Strategy
@@ -37,8 +37,8 @@ passport.use('JWT-Strategy', new JWTStrategy({
         })
         .catch( (err) => {
             done(err, false);
-        })
-}))
+        });
+}));
 
 
 // Local Strategy
@@ -72,8 +72,8 @@ passport.use('Local-Strategy', new LocalStrategy({
         .catch( (err) => {
             // Handling errors
             done(err, false);
-        })
-}))
+        });
+}));
 
 
 // Google OAuth2.0 Strategy
@@ -107,8 +107,8 @@ passport.use('Google-Strategy', new GoogleStrategy({
         })
         .catch( (err) => {
             done(err, false, err.message);
-        })
-}))
+        });
+}));
 
 
 // Facebook Strategy
@@ -116,7 +116,7 @@ passport.use('Facebook-Strategy', new FacebookStrategy({
     clientID: facebookConfig.CLIENT_ID,
     clientSecret: facebookConfig.CLIENT_SECRET,
 }, async (accessToken, refreshToken, profile, done) => {
-    await User.findOne({"facebookID": profile.id})
+    await User.findOne({'facebookID': profile.id})
         .then( async (existingUser) => {
             // Check whether this user exists in the database
             if (existingUser) {
@@ -144,5 +144,5 @@ passport.use('Facebook-Strategy', new FacebookStrategy({
         })
         .catch( (err) => {
             done(err, false, err.message);
-        })
-}))
+        });
+}));

@@ -57,4 +57,4 @@ module.exports = {
             return next();
         })(req, res, next);
     }
-}
+};

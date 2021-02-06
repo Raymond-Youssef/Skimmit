@@ -9,7 +9,7 @@ const diseaseSchema = new Schema({
         min: 2,
         required: [true, 'name is required']
     }
-})
+});
 
 
 // Create a model
@@ -25,7 +25,7 @@ Disease.validateDiseases = async function(diseases) {
             throw err;
         }
     }
-}
+};
 
 // Export model
 module.exports = {diseaseSchema, Disease};

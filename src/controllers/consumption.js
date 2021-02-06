@@ -9,11 +9,11 @@ module.exports = {
                 res.status(200).json({
                     success: true,
                     data: document,
-                })
+                });
             })
             .catch( err => {
                 next(err);
-            })
+            });
     },
 
     yesterdayConsumption: async (req, res, next) => {
@@ -24,11 +24,11 @@ module.exports = {
             const yesterdayConsumption = await Consume.findOne({
                 userID: req.user.id,
                 date: yesterdayDate,
-            })
+            });
             res.status(200).json({
                 success: true,
                 data: yesterdayConsumption
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -41,11 +41,11 @@ module.exports = {
             const weekConsumption = await Consume.find({
                 userID: req.user.id,
                 date: {$gte: cutoff},
-            })
+            });
             res.status(200).json({
                 success: true,
                 data: weekConsumption
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -71,11 +71,11 @@ module.exports = {
             return res.status(200).json({
                 success: true,
                 data: document,
-            })
+            });
         })
             .catch( err => {
                 next(err);
-            })
+            });
     },
 
 
@@ -89,7 +89,7 @@ module.exports = {
             })
             .catch( (err) => {
                 next(err);
-            })
+            });
     },
 
 
@@ -102,9 +102,9 @@ module.exports = {
             res.status(200).json({
                 success: true,
                 data: product,
-            })
+            });
         } catch (err) {
             next(err);
         }
     },
-}
+};

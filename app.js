@@ -3,9 +3,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const helmet = require("helmet");
+const helmet = require('helmet');
 const mongoose = require('mongoose');
-require('dotenv').config()
+require('dotenv').config();
 
 
 const DB_USER = process.env.DB_USER;
@@ -20,7 +20,7 @@ mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?
     useFindAndModify: false
 }).then( (mongoose) => {
     console.log(`Connected to MongoDB on Port: ${mongoose.connections[0].port}`);
-})
+});
 
 app = express();
 
@@ -43,5 +43,5 @@ app.use(require('./src/error-handler'));
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Express is listening on Port: ${PORT}`)
-})
+    console.log(`Express is listening on Port: ${PORT}`);
+});

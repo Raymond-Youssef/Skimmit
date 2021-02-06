@@ -13,7 +13,7 @@ module.exports = {
             req.diseaseID = diseaseID;
             next();
         } catch (e) {
-            const err = new Error('disease id is invalid')
+            const err = new Error('disease id is invalid');
             err.status = 400;
             next(err);
         }
@@ -33,7 +33,7 @@ module.exports = {
         return res.status(200).json({
             success: true,
             data: diseases,
-        })
+        });
     },
 
 
@@ -44,7 +44,7 @@ module.exports = {
             return res.status(201).json({
                 success: true,
                 data: disease
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -76,4 +76,4 @@ module.exports = {
             next(err);
         }
     }
-}
+};

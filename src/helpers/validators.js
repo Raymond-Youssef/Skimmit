@@ -7,14 +7,14 @@ module.exports = {
             if (result.error) {
                 return res.status(400).json({
                     success: false,
-                    message: "validation failed",
+                    message: 'validation failed',
                     errors: result.error.details.map((detail) => detail.message),
-                })
+                });
             }
             if (!req.value) {req.value = {}; }
             req.value['body'] = result.value;
             next();
-        }
+        };
     },
     schemas: {
         users: {
@@ -105,4 +105,4 @@ module.exports = {
             name: Joi.string().required(),
         }),
     }
-}
+};

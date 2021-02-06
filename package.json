@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Omeganes/Mondelez#readme",
   "devDependencies": {
+    "eslint": "^7.19.0",
     "nodemon": "^2.0.6"
   },
   "dependencies": {

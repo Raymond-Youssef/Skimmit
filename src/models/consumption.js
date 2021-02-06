@@ -27,7 +27,7 @@ const consumptionSchema = new Schema({
         required: true,
         default: 0,
     }
-})
+});
 
 
 // Combination of date and userID must be unique
@@ -51,7 +51,7 @@ consumptionSchema.methods.consumeProduct = async function (givenProduct, quantit
     }
     this.daily_calories += quantity*givenProduct.meta.calories;
     this.save();
-}
+};
 
 
 // Create a model
@@ -65,7 +65,7 @@ Consume.findOrCreateDailyConsumptionDocument = async function(user) {
         const existingConsumption = await Consume.findOne({
             userID: user.id,
             date: todayDate,
-        })
+        });
 
         if (existingConsumption) {
             return existingConsumption;
@@ -80,7 +80,7 @@ Consume.findOrCreateDailyConsumptionDocument = async function(user) {
     } catch (err) {
         throw new Error(err);
     }
-}
+};
 
 
 // Export the model

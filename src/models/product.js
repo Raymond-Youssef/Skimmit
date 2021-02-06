@@ -36,7 +36,7 @@ const productSchema = new Schema({
         ref: 'Disease',
         required: true,
     }],
-})
+});
 
 
 // Create a model
@@ -57,7 +57,7 @@ Product.findByBarcode = async function(barcode) {
         throw err;
     }
     return product;
-}
+};
 
 // Export the Model and the Schema
 module.exports = {Product, productSchema};

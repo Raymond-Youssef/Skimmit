@@ -9,12 +9,12 @@ const auth = require('../authenticate.js');
 consumptionRouter.get('/today',
     auth.userAuth,
     ConsumptionController.todayConsumption
-)
+);
 
 consumptionRouter.get('/yesterday',
     auth.userAuth,
     ConsumptionController.yesterdayConsumption
-)
+);
 
 consumptionRouter.get('/week',
     auth.userAuth,
@@ -25,14 +25,14 @@ consumptionRouter.get('/week',
 consumptionRouter.get('/date/:date',
     auth.userAuth,
     ConsumptionController.dateConsumption
-)
+);
 
 
 // Get all-time Consumption
 consumptionRouter.get('/all',
     auth.userAuth,
     ConsumptionController.allTimeConsumption
-)
+);
 
 
 // Consume a product

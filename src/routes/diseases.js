@@ -26,7 +26,7 @@ diseasesRouter.post('/',
     auth.adminAuth,
     validateBody(schemas.diseaseSchema),
     DiseaseController.create,
-)
+);
 
 
 diseasesRouter.patch('/:diseaseID',

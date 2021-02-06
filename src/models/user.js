@@ -67,7 +67,7 @@ const userSchema = new Schema({
     },
 },{
     timestamps: true
-})
+});
 
 
 userSchema.pre('save', async function(next) {
@@ -98,7 +98,7 @@ userSchema.methods.hashPassword = async function() {
     } catch(err) {
         throw new Error(err);
     }
-}
+};
 
 
 userSchema.methods.isValidPassword = async function(givenPassword) {
@@ -107,7 +107,7 @@ userSchema.methods.isValidPassword = async function(givenPassword) {
     } catch (err) {
         throw new Error(err);
     }
-}
+};
 
 
 // Create a model

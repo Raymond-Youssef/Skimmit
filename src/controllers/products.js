@@ -31,20 +31,20 @@ module.exports = {
                     success: true,
                     data: products,
                     page: page,
-                })
+                });
             })
             .catch( (err) => {
                 next(err);
-            } )
+            } );
     },
 
 
     readOne: async (req, res) => {
-        await req.product.populate('diseases','name').execPopulate()
+        await req.product.populate('diseases','name').execPopulate();
         return res.status(200).json({
             success: true,
             data: req.product
-        })
+        });
     },
 
 
@@ -69,7 +69,7 @@ module.exports = {
             return res.status(201).json({
                 success: true,
                 data: newProduct,
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -88,11 +88,11 @@ module.exports = {
                     return res.status(200).json({
                         success: true,
                         data: product,
-                    })
+                    });
                 })
                 .catch((err) => {
                     next(err);
-                })
+                });
         } catch (err) {
             next(err);
         }
@@ -106,7 +106,7 @@ module.exports = {
             res.status(200).json({
                 success: true,
                 deleted: product,
-            })
+            });
         } catch (err) {
             next(err);
         }
@@ -129,11 +129,11 @@ module.exports = {
                     success: true,
                     data: products,
                     page: page,
-                })
+                });
             })
             .catch( err => {
                 next(err);
-            })
+            });
     },
 
 
@@ -153,10 +153,10 @@ module.exports = {
                     success: true,
                     data: products,
                     page: page,
-                })
+                });
             })
             .catch( err => {
                 next(err);
-            })
+            });
     }
-}
+};
