@@ -1,5 +1,5 @@
 {
-  "name": "mondelez",
+  "name": "skimmit",
   "version": "1.0.0",
   "description": "Graduation project from the Faculty of Science, Computer Science Department",
   "main": "app.js",
@@ -9,21 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Omeganes/Mondelez.git"
+    "url": "git+https://github.com/Omeganes/Skimmit.git"
   },
   "keywords": [
     "Fitness",
     "Health",
     "Lifestyle",
     "API",
-    "Mondelez"
+    "Skimmit"
   ],
   "author": "Raymond",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Omeganes/Mondelez/issues"
+    "url": "https://github.com/Omeganes/Skimmit/issues"
   },
-  "homepage": "https://github.com/Omeganes/Mondelez#readme",
+  "homepage": "https://github.com/Omeganes/Skimmit#readme",
   "devDependencies": {
     "eslint": "^7.19.0",
     "nodemon": "^2.0.6"

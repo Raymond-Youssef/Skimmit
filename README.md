@@ -1,4 +1,4 @@
-# Mondelez API
+# Skimmit API
 
 ## Getting Started
 
@@ -61,11 +61,11 @@ this will start the server on your local environment on a specific PORT.
 
 ## Testing
 Tests can be run using [Postman](https://www.postman.com/)
-Import the collection in the file `Mondelez.postman_collection.json` to Postman then run your tests,
+Import the collection in the file `Skimmit.postman_collection.json` to Postman then run your tests,
 but make sure you set your base_url.
 
 ## API Reference
-* Base URL: this application is deployd on [Heroku](https://www.heroku.com/) with a base url `https://mondelez-api.herokuapp.com`.
+* Base URL: this application is deployd on [Heroku](https://www.heroku.com/) with a base url `https://Skimmit-api.herokuapp.com`.
 However, if you run it locally it will be hosted at the default, `http://127.0.0.1:3000/`.
-* API Documentation: You can find full API documentation here [Mondelez API Documentation](https://documenter.getpostman.com/view/12538552/TVzRGJLA)
+* API Documentation: You can find full API documentation here [Skimmit API Documentation](https://documenter.getpostman.com/view/12538552/TVzRGJLA)
 * Authentication: A full explanation of the authentication techniques in the full API Documentation.
